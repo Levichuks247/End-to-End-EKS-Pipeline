@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket         = "levichuks-terraform-state-v11"
-    key            = "eks-project/terraform.tfstate" # Separate state file
+    key            = "eks-project/terraform.tfstate"
     region         = "eu-west-2"
     encrypt        = true
   }
@@ -116,7 +116,8 @@ resource "aws_eks_node_group" "nodes" {
   node_role_arn   = aws_iam_role.nodes.arn
   subnet_ids      = [aws_subnet.pub_1.id, aws_subnet.pub_2.id]
 
-  instance_types = ["t3.medium"]
+  # FIXED: t3.micro is Free Tier eligible
+  instance_types = ["t3.micro"]
 
   scaling_config {
     desired_size = 2
