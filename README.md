@@ -85,3 +85,29 @@ This project isn't just a technical exercise; it solves real-world bottlenecks f
 Infrastructure Uptime: 99.9% (Managed by AWS EKS).
 Deployment Speed: Fresh infrastructure in ~20 mins; updates in <2 mins.
 Scalability: Auto-scales from 1 to 3 nodes.
+
+---
+
+## 🔧 Engineering Challenges & Solutions (The "Hidden Bosses")
+
+During the development of **End-to-End-EKS-Pipeline**, I encountered and resolved several real-world production issues:
+
+* **Challenge: Resource Constraints & Budget Control**
+    * **The Problem:** Initial deployments were blocked by AWS service limits and potential high costs for a personal lab.
+    * **The Solution:** Refactored Terraform modules to use `t3.micro` instances and optimized the Node Group configuration to fit within the **AWS Free Tier** while still maintaining a multi-AZ architecture.
+
+* **Challenge: Network Gateway Latency**
+    * **The Problem:** Application Load Balancers (ALB) were occasionally failing health checks during initial deployment.
+    * **The Solution:** Adjusted the Kubernetes Service manifests and Security Group ingress rules to ensure the AWS Load Balancer could communicate effectively with the pods on specific container ports.
+    
+* **Challenge: Infrastructure Lifecycle Management**
+    * **The Problem:** Needing a way to prevent "Cloud Sprawl" and unnecessary costs when the lab was not in use.
+    * **The Solution:** Implemented a **Manual "Kill Switch"** using GitHub Actions `workflow_dispatch`. This allows for a one-click `terraform destroy` directly from the GitHub UI, ensuring 100% cost control.
+
+## 🏁 Final Project Status: ARCHIVED
+* **Infrastructure:** Verified & Successfully Teardown.
+* **Documentation:** Complete.
+* **Automation:** CI/CD tested for both Provisioning and Destruction.
+
+---
+**Next Project:** [GitOps-CD-Pipeline (ArgoCD)] 🔜
